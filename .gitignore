@@ -1,0 +1,16 @@
+# dependencies (this app is zero-dependency, but keep the convention)
+node_modules/
+
+# logs
+*.log
+
+# environment / secrets
+.env
+.env.*
+*.local
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

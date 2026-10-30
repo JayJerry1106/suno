@@ -1,0 +1,23 @@
+# Render Blueprint — push-to-deploy configuration.
+# How it works:
+#   1. Push this repo (with render.yaml) to GitHub/GitLab.
+#   2. In Render: New -> Blueprint -> connect the repo.
+#   3. Render reads this file, creates the Web Service, builds, and gives a
+#      public HTTPS URL (e.g. https://usesuno-downloader.onrender.com).
+#   4. autoDeploy: yes means EVERY subsequent `git push` rebuilds & republishes
+#      automatically — exactly the "push = auto build & release" behavior.
+services:
+  - type: web
+    name: usesuno-downloader
+    runtime: node
+    plan: free
+    region: oregon            # choose the region nearest your users
+    buildCommand: "true"      # zero dependencies — nothing to compile
+    startCommand: "node server.js"
+    healthCheckPath: "/"      # the app returns 200 on "/" so Render keeps it live
+    autoDeploy: yes           # rebuild & republish on every push to the branch
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "18"           # pin a Node 18+ runtime (app needs >=18)
